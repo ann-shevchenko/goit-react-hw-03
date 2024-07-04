@@ -16,8 +16,10 @@ function App() {
         number: "",
     };
 
-    const [contacts, setContact] = useState(listContacts);
-
+    const [contacts, setContact] = useState(() => {
+        const saveContacts = JSON.parse(window.localStorage.getItem('key-contact'))
+        return saveContacts;
+    });
     const addContact = (values, actions) => {
         const newContact = {
             id: nanoid(),
