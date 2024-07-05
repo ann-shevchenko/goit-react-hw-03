@@ -25,9 +25,10 @@ function ContactForm({ addContact }) {
     return (
         <Formik initialValues={{name: '', number: ''}}
                 validationSchema={FeedbackSchema}
-                onSubmit={(values, actions) => {
-                    addContact(values, actions);
-
+                onSubmit={(values, { resetForm, setSubmitting }) => {
+                    addContact(values);
+                    resetForm();
+                    setSubmitting(false);
                 }}
         >
             {({isSubmitting}) => (

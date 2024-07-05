@@ -16,15 +16,14 @@ function App() {
         }
         return listContacts;
     });
-    const addContact = (values, actions) => {
+    const addContact = (values) => {
         const newContact = {
             id: nanoid(),
             name: values.name,
             number: values.number,
         };
         setContacts(prev => [...prev, newContact]);
-        actions.resetForm();
-        actions.setSubmitting(false);
+
     }
 
     const deleteContact = (id) => {
