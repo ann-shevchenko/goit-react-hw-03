@@ -1,22 +1,15 @@
 import './App.css'
 import ContactForm from "../ContactForm/ContactForm.jsx";
 import ContactList from "../ContactList/ContactList.jsx";
-import {useEffect, useId, useState} from "react";
+import {useEffect, useState} from "react";
 import SearchBox from "../SearchBox/SearchBox.jsx";
 import { nanoid } from 'nanoid';
 import listContacts from "../../data/listContacts.json";
 
 
 function App() {
-    const nameFieldId = useId();
-    const numberFieldId = useId();
 
-    const initialValues = {
-        name: "",
-        number: "",
-    };
-
-    const [contacts, setContact] = useState(() => {
+    const [contacts, setContacts] = useState(() => {
         const saveContacts = JSON.parse(window.localStorage.getItem('key-contact'))
         if(saveContacts?.length){
             return saveContacts;
@@ -29,9 +22,16 @@ function App() {
             name: values.name,
             number: values.number,
         };
-        setContact(prev => [...prev, newContact]);
+        setContacts(prev => [...prev, newContact]);
         actions.resetForm();
+        actions.setSubmitting(false);
     }
+
+    const deleteContact = (id) => {
+        const filteredArray = contacts.filter(contact => contact.id !== id);
+        setContacts(filteredArray);
+    }
+
     const [searchName, setSearchName] = useState('');
     const filterContact = contacts.filter(contact =>
         contact.name.toLowerCase().includes(searchName.toLowerCase()));
@@ -43,16 +43,11 @@ function App() {
     return (
         <div>
             <h1>Phonebook</h1>
-            <ContactForm
-                initialValues={initialValues}
-                addContact={addContact}
-                nameFieldId={nameFieldId}
-                numberFieldId={numberFieldId}
-                />
+            <ContactForm addContact={addContact}/>
             <SearchBox searchName={searchName}
                        setSearchName={setSearchName}/>
             <ContactList contacts={filterContact}
-                         setContacts={setContact}
+                         deleteContact={deleteContact}
             />
         </div>
 
