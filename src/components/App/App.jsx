@@ -21,7 +21,7 @@ function App() {
         if(saveContacts?.length){
             return saveContacts;
         }
-        return [];
+        return listContacts;
     });
     const addContact = (values, actions) => {
         const newContact = {
