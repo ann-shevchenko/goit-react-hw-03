@@ -18,7 +18,10 @@ function App() {
 
     const [contacts, setContact] = useState(() => {
         const saveContacts = JSON.parse(window.localStorage.getItem('key-contact'))
-        return saveContacts;
+        if(saveContacts?.length){
+            return saveContacts;
+        }
+        return [];
     });
     const addContact = (values, actions) => {
         const newContact = {
